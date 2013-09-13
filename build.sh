@@ -28,10 +28,10 @@ fi
 export LC_ALL=C
 
 MAKESELF_URL=https://github.com/megastep/makeself/archive/master.tar.gz
-MAKESELF_FILE=$(basename $MAKESELF_URL)
+MAKESELF_FILE=makeself.tar.gz
 MAKESELF_DIR=makeself-master
 
-[ -f $MAKESELF_FILE ] || wget $MAKESELF_URL
+[ -f $MAKESELF_FILE ] || wget -O${MAKESELF_FILE} $MAKESELF_URL
 [ -d $MAKESELF_DIR ] || tar xf $MAKESELF_FILE
 
 if ! which berks; then
