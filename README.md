@@ -25,3 +25,8 @@ package.bin file. eg.
 
     wget -Opackage.bin FULL_URL
     sh FULL_URL
+
+## Without vagrant
+
+You can also just run ./build.sh on any linux system and get the
+same result.
