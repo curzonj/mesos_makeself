@@ -8,6 +8,11 @@ CORE_VERSION=13.04
 CORE_URL=http://cdimage.ubuntu.com/ubuntu-core/releases/$CORE_VERSION/release/ubuntu-core-$CORE_VERSION-core-$CORE_ARCH.tar.gz
 CORE_TGZ=$(basename $CORE_URL)
 CHEF_DIR=/tmp/chef
+SOURCE_DIR=/vagrant
+
+if [ ! -d $SOURCE_DIR ]; then
+  SOURCE_DIR=`pwd`
+fi
 
 case $CORE_ARCH in
   amd64)
@@ -18,8 +23,10 @@ case $CORE_ARCH in
     ;;
 esac
 
+mkdir -p debs
+
 CHEF_URL=https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/$CORE_VERSION/$OTHER_ARCH/chef_11.6.0-1.ubuntu.13.04_$CORE_ARCH.deb
-CHEF_FILE=$(basename $CHEF_URL)
+CHEF_FILE=debs/$(basename $CHEF_URL)
 
 if [ $(id -u) != '0' ]; then
   exec sudo $0 $@
@@ -38,6 +45,7 @@ if ! which berks; then
   apt-get update
   apt-get -y install build-essential libxml2-dev libxslt-dev
   apt-get -y --no-install-recommends install ruby1.9.3 ruby1.9.1-dev
+  gem install berkshelf
 fi
 
 # TODO should we use debootstrap for this?
@@ -52,7 +60,7 @@ echo "Build directory is: $BUILD_DIR"
 [ -f $CORE_TGZ ] || wget $CORE_URL
 tar -xf $CORE_TGZ -C $BUILD_DIR
 
-[ -f $CHEF_FILE ] || wget $CHEF_URL
+[ -f $CHEF_FILE ] || wget -O$CHEF_FILE $CHEF_URL
 
 cp /etc/resolv.conf $BUILD_DIR/etc/
 cp $CHEF_FILE $BUILD_DIR/tmp
@@ -66,14 +74,14 @@ if [ -d debs ]; then
 fi
 
 (
-  cd /vagrant
+  cd $SOURCE_DIR
   berks install -p ${BUILD_DIR}${CHEF_DIR}/vendored_cookbooks
 )
 
 mkdir -p ${BUILD_DIR}${CHEF_DIR}
 for i in node.json chef_solo.rb data_bags roles cookbooks; do
-  if [ -e /vagrant/$i ]; then
-    cp -a /vagrant/$i ${BUILD_DIR}${CHEF_DIR}
+  if [ -e $SOURCE_DIR/$i ]; then
+    cp -a $SOURCE_DIR/$i ${BUILD_DIR}${CHEF_DIR}
   fi
 done
   
@@ -90,7 +98,6 @@ umount $BUILD_DIR/proc
 
 set -e
 
-mkdir -p debs
 # This is so huge it just clears the scrollback
 # buffer
 set +x
@@ -100,7 +107,7 @@ set -x
 if [ $exit_code == 0 ]; then
   chroot $BUILD_DIR apt-get clean
 
-  cp /vagrant/run.sh $BUILD_DIR/
+  cp $SOURCE_DIR/run.sh $BUILD_DIR/
   OPTS=--nox11
 
   if [ -f package.lsm ]; then
@@ -110,7 +117,7 @@ if [ $exit_code == 0 ]; then
   rm -f package.bin
   $MAKESELF_DIR/makeself.sh $OPTS $BUILD_DIR package.bin "Container" chroot ./ env -i /run.sh
 
-  cp package.bin /vagrant/
+  cp package.bin $SOURCE_DIR/
 fi
 
 echo "Build directory is: $BUILD_DIR"

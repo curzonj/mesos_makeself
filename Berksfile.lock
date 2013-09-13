@@ -1,19 +1,18 @@
 {
   "sources": {
-    "git": {
-      "locked_version": "2.4.0"
+    "ubuntu": {
+      "locked_version": "1.1.2"
     },
     "mesos": {
-      "path": "./cookbooks/mesos"
+      "locked_version": "0.1.0",
+      "git": "https://github.com/everpeace/cookbook-mesos.git",
+      "ref": "4d9d9789c42bd547bc265065bb2c9546f0130156"
     },
-    "dmg": {
-      "locked_version": "1.1.0"
+    "apt": {
+      "locked_version": "2.1.1"
     },
-    "build-essential": {
-      "locked_version": "1.4.0"
-    },
-    "yum": {
-      "locked_version": "2.3.0"
+    "java": {
+      "locked_version": "1.13.0"
     },
     "windows": {
       "locked_version": "1.10.0"
@@ -21,11 +20,14 @@
     "chef_handler": {
       "locked_version": "1.1.4"
     },
-    "runit": {
-      "locked_version": "1.1.6"
+    "python": {
+      "locked_version": "1.4.0"
     },
-    "ark": {
-      "locked_version": "0.3.0"
+    "build-essential": {
+      "locked_version": "1.4.2"
+    },
+    "yum": {
+      "locked_version": "2.3.2"
     }
   }
 }

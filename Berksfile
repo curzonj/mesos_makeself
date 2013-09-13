@@ -1,4 +1,4 @@
 site :opscode
 
-cookbook 'git'
-cookbook 'mesos', path: 'cookbooks/mesos'
+cookbook 'ubuntu'
+cookbook 'mesos', git: 'https://github.com/everpeace/cookbook-mesos.git'
