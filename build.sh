@@ -26,7 +26,7 @@ esac
 mkdir -p debs
 
 CHEF_URL=https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/$CORE_VERSION/$OTHER_ARCH/chef_11.6.0-1.ubuntu.13.04_$CORE_ARCH.deb
-CHEF_FILE=debs/$(basename $CHEF_URL)
+CHEF_FILE=$(basename $CHEF_URL)
 
 if [ $(id -u) != '0' ]; then
   exec sudo $0 $@
@@ -53,17 +53,21 @@ fi
 BUILD_DIR=$1
 if [ -z $BUILD_DIR ]; then
   BUILD_DIR=$(mktemp -d /tmp/chef_container.XXXXXXXXXX)
+else
+  mkdir -p $BUILD_DIR
 fi
 
 echo "Build directory is: $BUILD_DIR"
 
-[ -f $CORE_TGZ ] || wget $CORE_URL
-tar -xf $CORE_TGZ -C $BUILD_DIR
+if [ ! -d $BUILD_DIR/etc ]; then
+  [ -f $CORE_TGZ ] || wget $CORE_URL
+  tar -xf $CORE_TGZ -C $BUILD_DIR
+fi
 
-[ -f $CHEF_FILE ] || wget -O$CHEF_FILE $CHEF_URL
+[ -f debs/$CHEF_FILE ] || wget -Odebs/$CHEF_FILE $CHEF_URL
 
 cp /etc/resolv.conf $BUILD_DIR/etc/
-cp $CHEF_FILE $BUILD_DIR/tmp
+cp debs/$CHEF_FILE $BUILD_DIR/tmp
 
 if [ -d debs ]; then
   # This is so huge it just clears the scrollback

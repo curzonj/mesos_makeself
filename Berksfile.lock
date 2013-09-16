@@ -5,8 +5,8 @@
     },
     "mesos": {
       "locked_version": "0.1.0",
-      "git": "https://github.com/everpeace/cookbook-mesos.git",
-      "ref": "4d9d9789c42bd547bc265065bb2c9546f0130156"
+      "git": "https://github.com/curzonj/cookbook-mesos.git",
+      "ref": "f00b695488d4cf5b5b5e30da1c3cac83ae52c702"
     },
     "apt": {
       "locked_version": "2.1.1"

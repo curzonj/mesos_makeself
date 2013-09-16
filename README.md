@@ -30,3 +30,12 @@ package.bin file. eg.
 
 You can also just run ./build.sh on any linux system and get the
 same result.
+
+## Debugging
+
+If the build fails in the middle of chef you can just run the following
+after you find the BUILD_DIR.
+   
+    sudo mount -t proc proc $BUILD_DIR/proc
+    sudo chroot $BUILD_DIR /opt/chef/bin/chef-solo -c /tmp/chef/chef_solo.rb
+    
