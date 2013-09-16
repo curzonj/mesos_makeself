@@ -3,3 +3,4 @@
 *.tar.gz
 *.deb
 makeself-master
+tmp

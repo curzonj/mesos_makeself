@@ -7,11 +7,11 @@ log_location             STDOUT
 base = File.expand_path('../', __FILE__)
 Chef::Config[:chef_root] = base
 
-cookbook_path [ File.join(base, "cookbooks"), File.join(base, "vendored_cookbooks") ]
+cookbook_path [ File.join(base, "cookbooks"), File.join(base, "tmp/vendored_cookbooks") ]
 
 data_bag_path   File.join(base,   'data_bags')
 role_path       File.join(base,   'roles')
 json_attribs File.join(base, 'node.json') 
 
-file_cache_path File.join(base, 'cache')
-cache_options :path => File.join(base, "cache/run")
+file_cache_path '/tmp/chef/cache'
+cache_options :path => '/tmp/chef/cache/run'

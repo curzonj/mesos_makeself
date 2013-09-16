@@ -3,31 +3,8 @@
     "ubuntu": {
       "locked_version": "1.1.2"
     },
-    "mesos": {
-      "locked_version": "0.1.0",
-      "git": "https://github.com/curzonj/cookbook-mesos.git",
-      "ref": "f00b695488d4cf5b5b5e30da1c3cac83ae52c702"
-    },
     "apt": {
       "locked_version": "2.1.1"
-    },
-    "java": {
-      "locked_version": "1.13.0"
-    },
-    "windows": {
-      "locked_version": "1.10.0"
-    },
-    "chef_handler": {
-      "locked_version": "1.1.4"
-    },
-    "python": {
-      "locked_version": "1.4.0"
-    },
-    "build-essential": {
-      "locked_version": "1.4.2"
-    },
-    "yum": {
-      "locked_version": "2.3.2"
     }
   }
 }
