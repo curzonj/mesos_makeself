@@ -2,5 +2,5 @@
 *.bin
 *.tar.gz
 *.deb
-makeself-master
+makeself
 tmp
