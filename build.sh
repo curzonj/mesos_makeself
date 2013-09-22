@@ -30,7 +30,7 @@ mkdir -p /service/mesos
 ## runit service script
 cat > /service/mesos/run <<"EOS"
 #!/bin/bash
-exec chpst -u nobody $(cat /run/cmdline) 2>&1
+exec $(cat /run/cmdline) 2>&1
 EOS
 chmod +x /service/mesos/run
 
